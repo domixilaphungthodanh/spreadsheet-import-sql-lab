@@ -5,6 +5,7 @@ from datetime import date
 from pathlib import Path
 import re
 import sqlite3
+import sys
 
 ROOT = Path(__file__).resolve().parent
 DEFAULT_DB = ROOT / "database/workshop.db"
@@ -79,6 +80,9 @@ def import_file(source, db=DEFAULT_DB):
 
 
 def main():
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(encoding="utf-8")
     parser = argparse.ArgumentParser()
     parser.add_argument("csv", type=Path)
     parser.add_argument("--db", type=Path, default=DEFAULT_DB)
@@ -92,3 +96,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
